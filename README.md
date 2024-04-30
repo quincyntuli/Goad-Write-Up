@@ -521,11 +521,17 @@ domain groups are enumerated in a similar way
 rpcclient $> enumdomgroups
 ```
 
-
+<div align="center" ><img width='65%' src='https://raw.githubusercontent.com/quincyntuli/Goad-Write-Up/main/img/02-enumdomaingroups.png'><br><ins>Enumerating Domain Groups</ins></div>
 
 
 
 #### enum4linux
+
+This command is most effective in that in one command one can see users, groups as well as important information in the description column of the ADUC ( [Active Directory Users and Computers](https://learn.microsoft.com/en-us/answers/questions/430532/active-directory-users-and-computers) ). On this host, a password is leaked for the user.
+
+
+
+
 
 ```bash
 enum4linux -U 192.168.1.100
