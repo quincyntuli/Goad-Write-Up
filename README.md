@@ -551,3 +551,4 @@ Netexec can be used to perform null session enumeration. If you have it installe
 nxc smb 192.168.56.11 --users
 ```
 
+<div align="center" ><img width='100%' src='https://raw.githubusercontent.com/quincyntuli/Goad-Write-Up/main/img/05-netexec-anonymous-user-enumeration.png'><br><ins>Netexec user enumeration</ins></div>
