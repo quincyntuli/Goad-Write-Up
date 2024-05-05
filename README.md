@@ -527,12 +527,27 @@ rpcclient $> enumdomgroups
 
 #### enum4linux
 
-This command is most effective in that in one command one can see users, groups as well as important information in the description column of the ADUC ( [Active Directory Users and Computers](https://learn.microsoft.com/en-us/answers/questions/430532/active-directory-users-and-computers) ). On this host, a password is leaked for the user.
+This command is most effective in that in one command reveals users, groups as well as important information in the description column of the ADUC ( [Active Directory Users and Computers](https://learn.microsoft.com/en-us/answers/questions/430532/active-directory-users-and-computers) ). On this host, a password is leaked for the user **samwell.tally**.
 
 
-<div align="center" ><img width='95%' src='https://raw.githubusercontent.com/quincyntuli/Goad-Write-Up/main/img/03-Active-Directory-Users-and-Computers.png'><br><ins>Password leakage on ADUC</ins></div>
+<div align="center" ><img width='100%' src='https://raw.githubusercontent.com/quincyntuli/Goad-Write-Up/main/img/03-Active-Directory-Users-and-Computers.png'><br><ins>Password leakage on ADUC</ins></div>
 
 ```bash
 enum4linux -U 192.168.56.11
+```
+
+<div align="center" ><img width='95%' src='https://raw.githubusercontent.com/quincyntuli/Goad-Write-Up/main/img/04-enum4linux.png'><br><ins>Enum4linix enumeration</ins></div>
+
+A more elaborate command that lists group membership in a single command but it lacks the DESCRIPTION field information.
+
+```bash
+enum4linux -a -r -K 5000 192.168.56.11
+```
+
+
+Netexec can be used to perform null session enumeration. If you have it installed, the command is
+
+```ruby
+nxc smb 192.168.56.11 --users
 ```
 
