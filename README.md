@@ -604,25 +604,25 @@ That suggests the `all` share has the file **`arya.txt`**
 Downloading shared files is achieved through
 
 ```ruby
-nxc smb 192.168.56.22 -M spider_plus -o DOWNLOAD_FLAG=True
+nxc smb 192.168.56.0/24 -u 'samwell.tarly' -p 'Heartsbane' -M spider_plus -o DOWNLOAD_FLAG=True
 ```
 
-```bash
-┌──(qdada㉿Embizweni)-[/tmp/nxc_spider_plus]
-└─$ nxc smb 192.168.56.22 -M spider_plus -o DOWNLOAD_FLAG=True
-SMB         192.168.56.22   445    CASTELBLACK      [*] Windows 10 / Server 2019 Build 17763 x64 (name:CASTELBLACK) (domain:north.sevenkingdoms.local) (signing:False) (SMBv1:False)
-SPIDER_PLUS 192.168.56.22   445    CASTELBLACK      [*] Started module spidering_plus with the following options:
-SPIDER_PLUS 192.168.56.22   445    CASTELBLACK      [*]  DOWNLOAD_FLAG: True
-SPIDER_PLUS 192.168.56.22   445    CASTELBLACK      [*]     STATS_FLAG: True
-SPIDER_PLUS 192.168.56.22   445    CASTELBLACK      [*] EXCLUDE_FILTER: ['print$', 'ipc$']
-SPIDER_PLUS 192.168.56.22   445    CASTELBLACK      [*]   EXCLUDE_EXTS: ['ico', 'lnk']
-SPIDER_PLUS 192.168.56.22   445    CASTELBLACK      [*]  MAX_FILE_SIZE: 50 KB
-SPIDER_PLUS 192.168.56.22   445    CASTELBLACK      [*]  OUTPUT_FOLDER: /tmp/nxc_spider_plus
-SMB         192.168.56.22   445    CASTELBLACK      [-] Error getting user: list index out of range
-SMB         192.168.56.22   445    CASTELBLACK      [-] Error enumerating shares: [Errno 32] Broken pipe
-SPIDER_PLUS 192.168.56.22   445    CASTELBLACK      [+] Saved share-file metadata to "/tmp/nxc_spider_plus/192.168.56.22.json".
-SPIDER_PLUS 192.168.56.22   445    CASTELBLACK      [*] Total folders found:  0
-SPIDER_PLUS 192.168.56.22   445    CASTELBLACK      [*] Total files found:    0
+<div align="center" ><img width='100%' src='https://raw.githubusercontent.com/quincyntuli/Goad-Write-Up/main/img/06-netexec-download.png'><br><ins>Downloading results of spider command</ins></div>
+
+typing `cat /tmp/nxc_spider_plus/192.168.56.22.json` produced
+
+```json
+{
+  "all": {
+    "arya.txt": {
+      "atime_epoch": "2024-05-04 10:06:27",
+      "ctime_epoch": "2024-05-04 10:06:27",
+      "mtime_epoch": "2024-05-04 10:06:39",
+      "size": "413 B"
+    }
+  },
+  "public": {}
+}
 ```
 
 
