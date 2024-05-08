@@ -544,10 +544,6 @@ A more elaborate command that lists group membership in a single command but it 
 enum4linux -a -r -K 5000 192.168.56.11
 ```
 
-
-
-
-
 Netexec can be used to perform null session enumeration. If you have it installed, the command is
 
 ```ruby
@@ -625,6 +621,17 @@ typing `cat /tmp/nxc_spider_plus/192.168.56.22.json` produced
 }
 ```
 
+This suggests a text file called arya.txt exists under the "all" share.
+
+typing `cat /tmp/nxc_spider_plus/192.168.56.22/all/arya.txt` produced
+
+<div align="center" ><img width='100%' src='https://raw.githubusercontent.com/quincyntuli/Goad-Write-Up/main/img/07-arya-password.png'><br><ins>Displaying arya.txt</ins></div>
+
+The association with Arya and Needle cannot be overlooked when one is familiar with the show. It is not a leap to think that Needle may be the password. Netexec is run again to verify
+
+```bash
+nxc smb 192.168.56.0/24 -u 'arya.stark' -p 'Needle'
+```
 
 
 NORTH\jeor.mormont : _L0ngCl@w_
