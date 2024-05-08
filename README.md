@@ -634,4 +634,6 @@ nxc smb 192.168.56.0/24 -u 'arya.stark' -p 'Needle'
 ```
 
 
+<div align="center" ><img width='100%' src='https://raw.githubusercontent.com/quincyntuli/Goad-Write-Up/main/img/08-arya-password-confirmation.png'><br><ins>Password Confirmed</ins></div>
+
 NORTH\jeor.mormont : _L0ngCl@w_
