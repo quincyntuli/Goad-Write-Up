@@ -134,6 +134,84 @@ Service detection performed. Please report any incorrect results at https://nmap
 # Nmap done at Sun Apr 28 02:17:38 2024 -- 1 IP address (1 host up) scanned in 60.03 seconds
 ```
 
+
+### Domain : sevenkingdoms.local
+#### `KINGSLANDING` - host (192.168.56.10)
+
+```bash
+┌──(qdada㉿Embizweni)-[~/GOAD]
+└─$ nmap -sC -sV 192.168.56.10 -oA nmap/nmap-services-192.168.56.10.txt
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-05-09 12:36 EDT
+Nmap scan report for 192.168.56.10
+Host is up (0.00049s latency).
+Not shown: 987 closed tcp ports (conn-refused)
+PORT     STATE SERVICE       VERSION
+53/tcp   open  domain        Simple DNS Plus
+80/tcp   open  http          Microsoft IIS httpd 10.0
+|_http-title: IIS Windows Server
+| http-methods:
+|_  Potentially risky methods: TRACE
+|_http-server-header: Microsoft-IIS/10.0
+88/tcp   open  kerberos-sec  Microsoft Windows Kerberos (server time: 2024-05-09 16:36:33Z)
+135/tcp  open  msrpc         Microsoft Windows RPC
+139/tcp  open  netbios-ssn   Microsoft Windows netbios-ssn
+389/tcp  open  ldap          Microsoft Windows Active Directory LDAP (Domain: sevenkingdoms.local0., Site: Default-First-Site-Name)
+| ssl-cert: Subject: commonName=kingslanding.sevenkingdoms.local
+| Subject Alternative Name: othername: 1.3.6.1.4.1.311.25.1::<unsupported>, DNS:kingslanding.sevenkingdoms.local
+| Not valid before: 2024-05-04T13:39:10
+|_Not valid after:  2025-05-04T13:39:10
+|_ssl-date: 2024-05-09T16:37:19+00:00; 0s from scanner time.
+445/tcp  open  microsoft-ds?
+464/tcp  open  kpasswd5?
+593/tcp  open  ncacn_http    Microsoft Windows RPC over HTTP 1.0
+636/tcp  open  ssl/ldap      Microsoft Windows Active Directory LDAP (Domain: sevenkingdoms.local0., Site: Default-First-Site-Name)
+|_ssl-date: 2024-05-09T16:37:19+00:00; 0s from scanner time.
+| ssl-cert: Subject: commonName=kingslanding.sevenkingdoms.local
+| Subject Alternative Name: othername: 1.3.6.1.4.1.311.25.1::<unsupported>, DNS:kingslanding.sevenkingdoms.local
+| Not valid before: 2024-05-04T13:39:10
+|_Not valid after:  2025-05-04T13:39:10
+3268/tcp open  ldap          Microsoft Windows Active Directory LDAP (Domain: sevenkingdoms.local0., Site: Default-First-Site-Name)
+|_ssl-date: 2024-05-09T16:37:19+00:00; 0s from scanner time.
+| ssl-cert: Subject: commonName=kingslanding.sevenkingdoms.local
+| Subject Alternative Name: othername: 1.3.6.1.4.1.311.25.1::<unsupported>, DNS:kingslanding.sevenkingdoms.local
+| Not valid before: 2024-05-04T13:39:10
+|_Not valid after:  2025-05-04T13:39:10
+3269/tcp open  ssl/ldap      Microsoft Windows Active Directory LDAP (Domain: sevenkingdoms.local0., Site: Default-First-Site-Name)
+|_ssl-date: 2024-05-09T16:37:19+00:00; 0s from scanner time.
+| ssl-cert: Subject: commonName=kingslanding.sevenkingdoms.local
+| Subject Alternative Name: othername: 1.3.6.1.4.1.311.25.1::<unsupported>, DNS:kingslanding.sevenkingdoms.local
+| Not valid before: 2024-05-04T13:39:10
+|_Not valid after:  2025-05-04T13:39:10
+3389/tcp open  ms-wbt-server Microsoft Terminal Services
+| ssl-cert: Subject: commonName=kingslanding.sevenkingdoms.local
+| Not valid before: 2024-05-03T13:20:15
+|_Not valid after:  2024-11-02T13:20:15
+| rdp-ntlm-info:
+|   Target_Name: SEVENKINGDOMS
+|   NetBIOS_Domain_Name: SEVENKINGDOMS
+|   NetBIOS_Computer_Name: KINGSLANDING
+|   DNS_Domain_Name: sevenkingdoms.local
+|   DNS_Computer_Name: kingslanding.sevenkingdoms.local
+|   DNS_Tree_Name: sevenkingdoms.local
+|   Product_Version: 10.0.17763
+|_  System_Time: 2024-05-09T16:37:11+00:00
+|_ssl-date: 2024-05-09T16:37:19+00:00; 0s from scanner time.
+Service Info: Host: KINGSLANDING; OS: Windows; CPE: cpe:/o:microsoft:windows
+
+Host script results:
+| smb2-security-mode:
+|   3:1:1:
+|_    Message signing enabled and required
+| smb2-time:
+|   date: 2024-05-09T16:37:11
+|_  start_date: N/A
+|_nbstat: NetBIOS name: KINGSLANDING, NetBIOS user: <unknown>, NetBIOS MAC: 08:00:27:52:f1:1f (Oracle VirtualBox virtual NIC)
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 55.14 seconds
+```
+
+### Domain : north.sevenkingdoms.local
 #### `WINTERFELL` - host (192.168.56.11)
 {north.sevenkingdoms.local}
 
@@ -213,6 +291,93 @@ Service detection performed. Please report any incorrect results at https://nmap
 Nmap done: 1 IP address (1 host up) scanned in 74.91 seconds
 ```
 
+
+
+#### `CASTELBLACK` - host (192.168.56.22)
+{north.sevenkingdoms.local}
+
+```bash
+nmap -sC -sV 192.168.56.22 -oA nmap/nmap-services-192.168.56.22.txt
+```
+
+Results
+
+```bash
+┌──(qdada㉿GOAD-kali)-[~/Desktop/ad]
+└─$ nmap -sC -sV 192.168.56.22 -oA nmap/nmap-services-192.168.56.22.txt
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-04-28 03:20 EDT
+Nmap scan report for 192.168.56.22
+Host is up (0.00076s latency).
+Not shown: 994 closed tcp ports (conn-refused)
+PORT     STATE SERVICE       VERSION
+80/tcp   open  http          Microsoft IIS httpd 10.0
+|_http-server-header: Microsoft-IIS/10.0
+| http-methods:
+|_  Potentially risky methods: TRACE
+|_http-title: Site doesn't have a title (text/html).
+135/tcp  open  msrpc         Microsoft Windows RPC
+139/tcp  open  netbios-ssn   Microsoft Windows netbios-ssn
+445/tcp  open  microsoft-ds?
+1433/tcp open  ms-sql-s      Microsoft SQL Server 2019 15.00.2000.00; RTM
+| ssl-cert: Subject: commonName=SSL_Self_Signed_Fallback
+| Not valid before: 2024-04-23T12:11:09
+|_Not valid after:  2054-04-23T12:11:09
+|_ssl-date: 2024-04-28T07:40:11+00:00; +18m38s from scanner time.
+| ms-sql-ntlm-info:
+|   192.168.56.22:1433:
+|     Target_Name: NORTH
+|     NetBIOS_Domain_Name: NORTH
+|     NetBIOS_Computer_Name: CASTELBLACK
+|     DNS_Domain_Name: north.sevenkingdoms.local
+|     DNS_Computer_Name: castelblack.north.sevenkingdoms.local
+|     DNS_Tree_Name: sevenkingdoms.local
+|_    Product_Version: 10.0.17763
+| ms-sql-info:
+|   192.168.56.22:1433:
+|     Version:
+|       name: Microsoft SQL Server 2019 RTM
+|       number: 15.00.2000.00
+|       Product: Microsoft SQL Server 2019
+|       Service pack level: RTM
+|       Post-SP patches applied: false
+|_    TCP port: 1433
+3389/tcp open  ms-wbt-server Microsoft Terminal Services
+|_ssl-date: 2024-04-28T07:40:11+00:00; +18m38s from scanner time.
+| rdp-ntlm-info:
+|   Target_Name: NORTH
+|   NetBIOS_Domain_Name: NORTH
+|   NetBIOS_Computer_Name: CASTELBLACK
+|   DNS_Domain_Name: north.sevenkingdoms.local
+|   DNS_Computer_Name: castelblack.north.sevenkingdoms.local
+|   DNS_Tree_Name: sevenkingdoms.local
+|   Product_Version: 10.0.17763
+|_  System_Time: 2024-04-28T07:40:06+00:00
+| ssl-cert: Subject: commonName=castelblack.north.sevenkingdoms.local
+| Not valid before: 2024-04-19T22:59:25
+|_Not valid after:  2024-10-19T22:59:25
+Service Info: OS: Windows; CPE: cpe:/o:microsoft:windows
+
+Host script results:
+|_nbstat: NetBIOS name: CASTELBLACK, NetBIOS user: <unknown>, NetBIOS MAC: 08:00:27:ca:d7:e0 (Oracle VirtualBox virtual NIC)
+| smb2-time:
+|   date: 2024-04-28T07:40:06
+|_  start_date: N/A
+| smb2-security-mode:
+|   3:1:1:
+|_    Message signing enabled but not required
+|_clock-skew: mean: 18m38s, deviation: 0s, median: 18m37s
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 40.90 seconds
+```
+
+
+
+
+
+
+
+### Domain : essos.local
 
 #### `MEEREEN` - host (192.168.56.12)
 {essos.local}
@@ -307,87 +472,6 @@ Nmap done: 1 IP address (1 host up) scanned in 73.07 seconds
 ```
 
 
-#### `CASTELBLACK` - host (192.168.56.22)
-{north.sevenkingdoms.local}
-
-```bash
-nmap -sC -sV 192.168.56.22 -oA nmap/nmap-services-192.168.56.22.txt
-```
-
-Results
-
-```bash
-┌──(qdada㉿GOAD-kali)-[~/Desktop/ad]
-└─$ nmap -sC -sV 192.168.56.22 -oA nmap/nmap-services-192.168.56.22.txt
-Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-04-28 03:20 EDT
-Nmap scan report for 192.168.56.22
-Host is up (0.00076s latency).
-Not shown: 994 closed tcp ports (conn-refused)
-PORT     STATE SERVICE       VERSION
-80/tcp   open  http          Microsoft IIS httpd 10.0
-|_http-server-header: Microsoft-IIS/10.0
-| http-methods:
-|_  Potentially risky methods: TRACE
-|_http-title: Site doesn't have a title (text/html).
-135/tcp  open  msrpc         Microsoft Windows RPC
-139/tcp  open  netbios-ssn   Microsoft Windows netbios-ssn
-445/tcp  open  microsoft-ds?
-1433/tcp open  ms-sql-s      Microsoft SQL Server 2019 15.00.2000.00; RTM
-| ssl-cert: Subject: commonName=SSL_Self_Signed_Fallback
-| Not valid before: 2024-04-23T12:11:09
-|_Not valid after:  2054-04-23T12:11:09
-|_ssl-date: 2024-04-28T07:40:11+00:00; +18m38s from scanner time.
-| ms-sql-ntlm-info:
-|   192.168.56.22:1433:
-|     Target_Name: NORTH
-|     NetBIOS_Domain_Name: NORTH
-|     NetBIOS_Computer_Name: CASTELBLACK
-|     DNS_Domain_Name: north.sevenkingdoms.local
-|     DNS_Computer_Name: castelblack.north.sevenkingdoms.local
-|     DNS_Tree_Name: sevenkingdoms.local
-|_    Product_Version: 10.0.17763
-| ms-sql-info:
-|   192.168.56.22:1433:
-|     Version:
-|       name: Microsoft SQL Server 2019 RTM
-|       number: 15.00.2000.00
-|       Product: Microsoft SQL Server 2019
-|       Service pack level: RTM
-|       Post-SP patches applied: false
-|_    TCP port: 1433
-3389/tcp open  ms-wbt-server Microsoft Terminal Services
-|_ssl-date: 2024-04-28T07:40:11+00:00; +18m38s from scanner time.
-| rdp-ntlm-info:
-|   Target_Name: NORTH
-|   NetBIOS_Domain_Name: NORTH
-|   NetBIOS_Computer_Name: CASTELBLACK
-|   DNS_Domain_Name: north.sevenkingdoms.local
-|   DNS_Computer_Name: castelblack.north.sevenkingdoms.local
-|   DNS_Tree_Name: sevenkingdoms.local
-|   Product_Version: 10.0.17763
-|_  System_Time: 2024-04-28T07:40:06+00:00
-| ssl-cert: Subject: commonName=castelblack.north.sevenkingdoms.local
-| Not valid before: 2024-04-19T22:59:25
-|_Not valid after:  2024-10-19T22:59:25
-Service Info: OS: Windows; CPE: cpe:/o:microsoft:windows
-
-Host script results:
-|_nbstat: NetBIOS name: CASTELBLACK, NetBIOS user: <unknown>, NetBIOS MAC: 08:00:27:ca:d7:e0 (Oracle VirtualBox virtual NIC)
-| smb2-time:
-|   date: 2024-04-28T07:40:06
-|_  start_date: N/A
-| smb2-security-mode:
-|   3:1:1:
-|_    Message signing enabled but not required
-|_clock-skew: mean: 18m38s, deviation: 0s, median: 18m37s
-
-Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
-Nmap done: 1 IP address (1 host up) scanned in 40.90 seconds
-```
-
-
-
-
 
 #### `BRAAVOS` - host (192.168.56.23)
 {essos.local}
@@ -466,206 +550,3 @@ Nmap done: 1 IP address (1 host up) scanned in 26.86 seconds
 
 
 
-## User Enumeration
-### 01 - Null Session Enumeration
-
-#### Samwell Tarly
-
-Samuel's Tarly's credentials were first to be discovered. For this task the following tools can be used to enumerate users
-##### rpcclient
-
-```bash
-rpcclient -U "" //<IP_ADDRESS>
-```
-
-`enum` commands can be discovered by typing enum and pressing TAB on the keyboard
-
-```ruby
-┌──(qdada㉿GOAD-kali)-[~]
-└─$ rpcclient -U "" --no-pass 192.168.56.11
-rpcclient $> enum [TAB]
-enumalsgroups              enumkey
-enumdata                   enummonitors
-enumdataex                 enumpermachineconnections
-enumdomains                enumports
-enumdomgroups              enumprinters
-enumdomusers               enumprivs
-enumdrivers                enumprocdatatypes
-enumforms                  enumprocs
-enumjobs                   enumtrust
-rpcclient $>
-```
-
-the command we are looking for is `enumdomusers`
-
-```ruby
-┌──(qdada㉿GOAD-kali)-[~]
-└─$ rpcclient -U "" --no-pass 192.168.56.11
-rpcclient $> enumdomusers
-user:[Guest] rid:[0x1f5]
-user:[arya.stark] rid:[0x456]
-user:[sansa.stark] rid:[0x45a]
-user:[brandon.stark] rid:[0x45b]
-user:[rickon.stark] rid:[0x45c]
-user:[hodor] rid:[0x45d]
-user:[jon.snow] rid:[0x45e]
-user:[samwell.tarly] rid:[0x45f]
-user:[jeor.mormont] rid:[0x460]
-user:[sql_svc] rid:[0x461]
-rpcclient $>
-```
-
-domain groups are enumerated in a similar way
-
-```bash
-rpcclient $> enumdomgroups
-```
-
-<div align="center" ><img width='65%' src='https://raw.githubusercontent.com/quincyntuli/Goad-Write-Up/main/img/02-enumdomaingroups.png'><br><ins>Enumerating Domain Groups</ins></div>
-
-
-
-##### enum4linux
-
-This command is most effective in that in one command reveals users, groups as well as important information in the description column of the ADUC ( [Active Directory Users and Computers](https://learn.microsoft.com/en-us/answers/questions/430532/active-directory-users-and-computers) ). On this host, a password is leaked for the user **samwell.tally**.
-
-
-<div align="center" ><img width='100%' src='https://raw.githubusercontent.com/quincyntuli/Goad-Write-Up/main/img/03-Active-Directory-Users-and-Computers.png'><br><ins>Password leakage on ADUC</ins></div>
-
-```bash
-enum4linux -U 192.168.56.11
-```
-
-<div align="center" ><img width='95%' src='https://raw.githubusercontent.com/quincyntuli/Goad-Write-Up/main/img/04-enum4linux.png'><br><ins>Enum4linix enumeration</ins></div>
-
-A more elaborate command that lists group membership in a single command but it lacks the DESCRIPTION field information.
-
-```bash
-enum4linux -a -r -K 5000 192.168.56.11
-```
-##### Netexec
-
-Netexec can be used to perform null session enumeration. If you have it installed, the command is
-
-```ruby
-nxc smb 192.168.56.11 --users
-```
-
-<div align="center" ><img width='100%' src='https://raw.githubusercontent.com/quincyntuli/Goad-Write-Up/main/img/05-netexec-anonymous-user-enumeration.png'><br><ins>Netexec user enumeration</ins></div>
-
-### 02 - Authenticated Enumeration
-
-#### Arya Stark
-
-Using credentials discovered from null session enumeration that revealed sensitive information disclosure where credentials were left in the open.
-
-```bash
-#obtained by 
-nxc smb 192.168.56.0/24 -u 'samwell.tarly' -p 'Heartsbane' -M spider_plus
-
-#that command  produced the following
-┌──(qdada㉿Embizweni)-[/tmp/nxc_spider_plus]
-└─$ ls -al
-total 40
-drwxr-xr-x  2 qdada qdada  4096 May  8 14:27 .
-drwxrwxrwt 16 root  root  12288 May  8 14:26 ..
--rw-r--r--  1 qdada qdada  3345 May  8 14:27 192.168.56.11.json
--rw-r--r--  1 qdada qdada   250 May  8 14:27 192.168.56.22.json
--rw-r--r--  1 qdada qdada    17 May  8 14:27 192.168.56.23.json
--rw-r--r--  1 qdada qdada  9569 May  8 14:27 initial_spider_plus.txt
-```
-
-typing **`cat 192.168.56.22.json`** produced
-
-```ruby
-┌──(qdada㉿Embizweni)-[/tmp/nxc_spider_plus]
-└─$ cat 192.168.56.22.json |jq
-{
-  "all": {
-    "arya.txt": {
-      "atime_epoch": "2024-05-04 10:06:27",
-      "ctime_epoch": "2024-05-04 10:06:27",
-      "mtime_epoch": "2024-05-04 10:06:39",
-      "size": "413 B"
-    }
-  },
-  "public": {}
-}
-```
-
-That suggests the `all` share has the file **`arya.txt`**
-
-Downloading shared files is achieved through
-
-```ruby
-nxc smb 192.168.56.0/24 -u 'samwell.tarly' -p 'Heartsbane' -M spider_plus -o DOWNLOAD_FLAG=True
-```
-
-<div align="center" ><img width='100%' src='https://raw.githubusercontent.com/quincyntuli/Goad-Write-Up/main/img/06-netexec-download.png'><br><ins>Downloading results of spider command</ins></div>
-
-typing `cat /tmp/nxc_spider_plus/192.168.56.22.json` produced
-
-```json
-{
-  "all": {
-    "arya.txt": {
-      "atime_epoch": "2024-05-04 10:06:27",
-      "ctime_epoch": "2024-05-04 10:06:27",
-      "mtime_epoch": "2024-05-04 10:06:39",
-      "size": "413 B"
-    }
-  },
-  "public": {}
-}
-```
-
-This suggests a text file called arya.txt exists under the "all" share.
-
-typing `cat /tmp/nxc_spider_plus/192.168.56.22/all/arya.txt` produced
-
-<div align="center" ><img width='100%' src='https://raw.githubusercontent.com/quincyntuli/Goad-Write-Up/main/img/07-arya-password.png'><br><ins>Displaying arya.txt</ins></div>
-
-The association with Arya and Needle cannot be overlooked when one is familiar with the show. It is not a leap to think that Needle may be the password. Netexec is run again to verify
-
-```bash
-nxc smb 192.168.56.0/24 -u 'arya.stark' -p 'Needle'
-```
-
-
-<div align="center" ><img width='100%' src='https://raw.githubusercontent.com/quincyntuli/Goad-Write-Up/main/img/08-arya-password-confirmation.png'><br><ins>Password Confirmed</ins></div>
-#### Jeor Mormont
-
-What can this Arya account access ? We run nxc once more ...
-
-```bash
-nxc smb 192.168.56.11,22-23 -u 'arya.stark' -p 'Needle' -M spider_plus -o DOWNLOAD_FLAG=True
-```
-
-That command downloads files including `NETLOGON/script.ps1`
-
-```powershell
-┌──(qdada㉿Embizweni)-[/tmp/nxc_spider_plus/192.168.56.11/NETLOGON]
-└─$ cat script.ps1
-# fake script in netlogon with creds
-$task = '/c TODO'
-$taskName = "fake task"
-$user = "NORTH\jeor.mormont"
-$password = "_L0ngCl@w_"
-```
-
-Once again the credentials are tested over again ...
-
-```bash
-nxc smb 192.168.56.0/24 -u 'NORTH\jeor.mormont' -p '_L0ngCl@w_' --users
-```
-
-
-It is discovered that Jeor Mormont has Administrator access on `CASTLEBLACK`, obviously.
-
-
-
-
-
-```ruby
-hashcat.exe -m 18200 hashes\out.txt wordlist\rockyou.txt
-```
