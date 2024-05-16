@@ -252,7 +252,7 @@ impacket-GetNPUsers -dc-ip 192.168.56.12 'essos.local/' -no-pass -usersfile user
 
  It is observed that the second command has dumped the hash for us. 
 
-
+<div align="center" ><img width='100%' src='https://raw.githubusercontent.com/quincyntuli/Goad-Write-Up/main/img/12-reproast-hashes'><br><ins>List of users</ins></div>
 
 
 #### Brandon Stark
