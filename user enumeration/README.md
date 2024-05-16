@@ -340,3 +340,4 @@ The hash was cracked using hashcat...
 hashcat.exe -a 0 -m 5600 hashes\robb.stark.hash wordlist\rockyou.txt
 ```
 
+<div align="center" ><img width='100%' src='https://raw.githubusercontent.com/quincyntuli/Goad-Write-Up/main/img/14-Robb-Stark-cracked.png'><br><ins>Robb's hash cracked</ins></div>
