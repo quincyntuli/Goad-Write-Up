@@ -3,13 +3,13 @@
 This is a setup where GOAD is running on top of Ubuntu. An additional vm running kali was added to simulate a scenario where an internal assessment is conducted and the assessor already has access to the network.
 
 
-## Subnet Enumeration
+#### What subnet is Kali on
 
 ```bash
 ┌──(qdada㉿GOAD-kali)-[~/Desktop/ad]
 └─$ ifconfig
 eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
-        inet 192.168.56.106  netmask 255.255.255.0  broadcast 192.168.56.255
+        inet 192.168.56.120  netmask 255.255.255.0  broadcast 192.168.56.255
         inet6 fe80::2a0a:6d46:1d16:18a1  prefixlen 64  scopeid 0x20<link>
         ether 08:00:27:1e:36:4a  txqueuelen 1000  (Ethernet)
         RX packets 35510  bytes 4867717 (4.6 MiB)
@@ -18,7 +18,7 @@ eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
         TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 
 eth1: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
-        inet 192.168.2.80  netmask 255.255.255.0  broadcast 192.168.2.255
+        inet 192.168.2.37  netmask 255.255.255.0  broadcast 192.168.2.255
         inet6 fe80::1e73:4881:fb34:527c  prefixlen 64  scopeid 0x20<link>
         ether 08:00:27:40:fd:53  txqueuelen 1000  (Ethernet)
         RX packets 589440  bytes 43891514 (41.8 MiB)
@@ -36,7 +36,7 @@ lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
         TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 ```
 
-The kali box with IP 192.168.56.106 is on the 192.168.56.0/24 network.
+The kali box with IP 192.168.56.120 is on the 192.168.56.0/24 subnet.
 
 
 ```bash
@@ -51,12 +51,36 @@ The results are parsed to look for the line containing the IP addresses.
 
 The hosts are enumerated as follows.
 
-### Domain : sevenkingdoms.local
+#### Identify domain controller(s)
+
+We need an nmap result where we have at least port 88 (for Kerberos) and port 389 (for LDAP) running...
+
+```bash
+nmap -p 88,389,464,53 192.168.1.0/24 -oG - | awk '/Ports: 88\/open/ && /389\/open/ && /464\/open/ && /53\/open/ {print $2}' > hosts_with_dc_services.txt
+```
+
+results : 
+
+```r
+┌──(qdada㉿Embizweni)-[~]
+└─$ cat hosts_with_88_and_389.txt
+192.168.56.10
+192.168.56.11
+192.168.56.12
+```
+
+These three hosts represent domain controllers for three separate domains
+
+>sevenkingdoms.local
+>north.sevenkingdoms.local
+>essos.local
+
+### 1. Domain : sevenkingdoms.local
 #### `KINGSLANDING` - host (192.168.56.10)
 
 ```bash
 ┌──(qdada㉿Embizweni)-[~/GOAD]
-└─$ nmap -sC -sV 192.168.56.10 -oA nmap/nmap-services-192.168.56.10.txt
+└─$ nmap -sC -sV 192.168.56.10 -oA nmap/nmap-services-192.168.56.10
 Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-05-09 12:36 EDT
 Nmap scan report for 192.168.56.10
 Host is up (0.00049s latency).
@@ -127,7 +151,14 @@ Service detection performed. Please report any incorrect results at https://nmap
 Nmap done: 1 IP address (1 host up) scanned in 55.14 seconds
 ```
 
-### Domain : north.sevenkingdoms.local
+
+<hr>
+
+<hr>
+
+
+
+### 2. Domain : north.sevenkingdoms.local
 #### `WINTERFELL` - host (192.168.56.11)
 {north.sevenkingdoms.local}
 
@@ -288,12 +319,9 @@ Nmap done: 1 IP address (1 host up) scanned in 40.90 seconds
 ```
 
 
+<hr>
 
-
-
-
-
-### Domain : essos.local
+### 3. Domain : essos.local
 
 #### `MEEREEN` - host (192.168.56.12)
 {essos.local}
@@ -386,9 +414,6 @@ Host script results:
 Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 Nmap done: 1 IP address (1 host up) scanned in 73.07 seconds
 ```
-
-
-
 #### `BRAAVOS` - host (192.168.56.23)
 {essos.local}
 
