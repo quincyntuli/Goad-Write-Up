@@ -9,7 +9,7 @@ This is a setup where GOAD is running on top of Ubuntu. An additional vm running
 ┌──(qdada㉿GOAD-kali)-[~/Desktop/ad]
 └─$ ifconfig
 eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
-        inet 192.168.56.120  netmask 255.255.255.0  broadcast 192.168.56.255
+        inet 192.168.56.106  netmask 255.255.255.0  broadcast 192.168.56.255
         inet6 fe80::2a0a:6d46:1d16:18a1  prefixlen 64  scopeid 0x20<link>
         ether 08:00:27:1e:36:4a  txqueuelen 1000  (Ethernet)
         RX packets 35510  bytes 4867717 (4.6 MiB)
@@ -37,6 +37,8 @@ lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
 ```
 
 The kali box with IP 192.168.56.120 is on the 192.168.56.0/24 subnet.
+Please note that your settings may vary, the VirtualBox DHCP server may issue a different address to the one issued to `eth0`. For consistency it is recommended to change this address to a static one.
+
 
 
 ```bash
@@ -45,6 +47,10 @@ The kali box with IP 192.168.56.120 is on the 192.168.56.0/24 subnet.
 ```
 
 The results are parsed to look for the line containing the IP addresses.
+```bash
+cat initial_report.txt | grep 'report for'
+```
+
 
 <div align="center" ><img width='95%' src='https://raw.githubusercontent.com/quincyntuli/Goad-Write-Up/main/img/01-nmap-01.png'><br><ins>IP scan reports</ins></div>
 
@@ -56,7 +62,7 @@ The hosts are enumerated as follows.
 We need an nmap result where we have at least port 88 (for Kerberos) and port 389 (for LDAP) running...
 
 ```bash
-nmap -p 88,389,464,53 192.168.1.0/24 -oG - | awk '/Ports: 88\/open/ && /389\/open/ && /464\/open/ && /53\/open/ {print $2}' > hosts_with_dc_services.txt
+nmap -p 88,53,389,464 192.168.56.0/24 -oG - | grep 'Ports:.*88/open' | grep 'Ports:.*389/open' | awk '{print $2}' > hosts_with_88_and_389.txt
 ```
 
 results : 
@@ -69,7 +75,7 @@ results :
 192.168.56.12
 ```
 
-These three hosts represent domain controllers for three separate domains
+These three hosts represent domain controllers for three  domains
 
 >sevenkingdoms.local
 >north.sevenkingdoms.local
